@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <input type="text" id="title" placeholder="Todo title"></input> <br /><br />
+  <input type="text" id="description" placeholder="Todo description"></input> <br /><br />
+  <div id  = "container"></div>
+
+  <script>
+
+
+    let globalId = 0;
+    
+    document.getElementById("container").innerHTML = "";
+
+    function markAsDone(todoId) {
+      const parent = document.getElementById(todoId);
+      parent.children[2].innerHTML = "Done!"
+    }
+
+    function createChild(title, description, id) {
+      const child = document.createElement("div");
+      const firstGrandParent = document.createElement("div");
+      firstGrandParent.innerHTML = title;
+      const secondGrandParent = document.createElement("div");
+      secondGrandParent.innerHTML = description;
+      const thirdGrandParent = document.createElement("button");
+      thirdGrandParent.innerHTML = "Mark as done";
+      thirdGrandParent.setAttribute("onclick", `markAsDone(${id})`);
+      child.appendChild(firstGrandParent);
+      child.appendChild(secondGrandParent);
+      child.appendChild(thirdGrandParent)
+      child.setAttribute("id", id);
+      return child;
+    }
+    
+    const state = [
+      {
+        title : "going to the gym",
+        description : "plan fitness",
+        id : 1
+      },
+      {
+        title : "food",
+        description : "ghar ka dinner",
+        id : 2
+      }
+    ];
+    
+    window.setInterval(async () =>
+    {
+      let response = await fetch("https://sum-server.100xdevs.com/todos");
+      let state = (response.json());
+      updatedom(state.todos);
+    },5000);
+    
+    function updatedom(){
+      state.forEach(function updatedomacctostate(element){
+        const title = element.title;
+        const description = element.description;
+        const container = document.getElementById("container");
+        container.appendChild(createChild(title,description,globalId++));
+        const breakst = document.createElement("br");
+        container.appendChild(breakst);
+        container.appendChild(breakst);
+      });
+    }
+  </script>
+</body>
+
+</html>
