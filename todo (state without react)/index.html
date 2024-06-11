@@ -13,8 +13,6 @@
 
 
     let globalId = 0;
-    
-    document.getElementById("container").innerHTML = "";
 
     function markAsDone(todoId) {
       const parent = document.getElementById(todoId);
@@ -37,27 +35,16 @@
       return child;
     }
     
-    const state = [
-      {
-        title : "going to the gym",
-        description : "plan fitness",
-        id : 1
-      },
-      {
-        title : "food",
-        description : "ghar ka dinner",
-        id : 2
-      }
-    ];
-    
     window.setInterval(async () =>
     {
-      let response = await fetch("https://sum-server.100xdevs.com/todos");
-      let state = (response.json());
+      const res = await fetch("https://sum-server.100xdevs.com/todos");
+      const state = await res.json();
+      console.log(state);
       updatedom(state.todos);
     },5000);
     
-    function updatedom(){
+    function updatedom(state){
+      container.innerHTML = "";
       state.forEach(function updatedomacctostate(element){
         const title = element.title;
         const description = element.description;
