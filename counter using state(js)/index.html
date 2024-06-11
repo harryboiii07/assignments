@@ -1,0 +1,35 @@
+<html>
+  <body>
+    <div id = container>
+    </div>
+
+    <script>
+      let state = {
+        count : 0
+      }
+
+      function increment(){
+        state.count++;
+        buttoncomponentrerender()
+      }
+
+      function buttoncomponentrerender(){
+        const container = document.getElementById("container");
+        container.innerHTML = "";
+        const component = buttoncomponent(state.count);
+        container.appendChild(component);
+      }
+      
+      function buttoncomponent(count){
+        const btn = document.createElement("button");
+        btn.innerHTML = `counter ${count}`;
+        btn.setAttribute("onclick",`increment()`);
+        return btn;
+      }
+
+      buttoncomponentrerender();
+      
+    </script>
+  </body>
+
+  </html>
