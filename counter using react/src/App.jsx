@@ -3,13 +3,22 @@ import { useState } from "react";
 function App() {
   const [count,setcount] = useState(0);
 
-  function clickhandler(){
-    setcount(count+1);
-  }
   return (
     <div>
-    <button onClick={clickhandler}>counter {count}</button>
+    <Custombutton count={count} setcount={setcount}></Custombutton>
     </div>
+  )
+}
+
+//component
+function Custombutton(props){
+
+  function clickhandler(){
+    props.setcount(props.count+1);
+  }
+
+  return(
+    <button onClick={clickhandler}>counter {props.count}</button>
   )
 }
 
