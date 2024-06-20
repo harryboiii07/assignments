@@ -1,21 +1,17 @@
+import { Children } from "react"
 
 function App() {
   return <>
-    <Cardwrapper innerComponent = {<Textcomponent></Textcomponent>}></Cardwrapper>
+    <Cardwrapper >hi there</Cardwrapper>
   </>
 }
 
-function Textcomponent(){
-  return <div>
-  hi there
-  </div>
-}
 
-function Cardwrapper({innerComponent}){
+function Cardwrapper({children}){
   return <div style = {
     {border : "2px solid black"}
   }>
-  {innerComponent}
+  {children}
   </div>
 }
 
