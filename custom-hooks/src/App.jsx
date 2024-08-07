@@ -1,49 +1,32 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
 
-function useTodos(n){
-  const [todos, setTodos] = useState([])
-  const [loading,setloading] = useState(true);
+import { useEffect, useState } from 'react'
+
+const useMousePointer = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    setPosition({ x: e.clientX, y: e.clientY });
+  };
 
   useEffect(() => {
-    const value = setInterval(()=>{
-      axios.get("https://sum-server.100xdevs.com/todos")
-      .then(res => {
-        setTodos(res.data.todos);
-        setloading(false);
-      })
-    },n*1000);
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  
+  }, []);
 
-    axios.get("https://sum-server.100xdevs.com/todos")
-      .then(res => {
-        setTodos(res.data.todos);
-        setloading(false);
-      })
-    return (()=>{
-      clearInterval(value);
-    })
-  }, [n]);
-
-  return {todos, loading};
-}
+  return position;
+};
 
 function App() {
-  
-  const {todos, loading} = useTodos(2);
+  const mousePointer = useMousePointer();
 
   return (
     <>
-      {loading ? <div>loading...</div> : todos.map(todo => <Track todo={todo} />)}
+      Your mouse position is {mousePointer.x} {mousePointer.y}
     </>
   )
-}
-
-function Track({ todo }) {
-  return <div>
-    {todo.title}
-    <br />
-    {todo.description}
-  </div>
 }
 
 export default App
